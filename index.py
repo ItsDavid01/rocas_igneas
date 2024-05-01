@@ -4,6 +4,15 @@ import pandas as pd
 import numpy as np
 #import cv2
 
+def parseBool(num):
+    if num == 1:
+        return True
+    else:
+        return False
+
+def LogicCircuit(A, B, C, D): #A: value, B: real, C: Olivino, D: UniqueTag
+    return (((not A) and (not C)) or ((not A) and (not D)) or (A and B))
+
 def rmv(list, elem): #remove
     try:
         list.remove(elem)
@@ -126,18 +135,21 @@ if selectBox_1_p == "Minerales":
                                     index=None,
                                     placeholder="Seleccione una opción")
         
+    
+      
     rocasDF = pd.read_csv("Rocas_Igneas.csv")
-    st.write("La roca con las caracteristicas antes mencionadas puede ser: ")
-    selectionDF = rocasDF[((rocasDF["Cuarzo"] == 1) | (MinEssBin[0] == 0)) &
-                          ((rocasDF["Muscovita"] == 1) | (MinEssBin[1] == 0)) &
-                          ((rocasDF["Feldespato"] == 1) | (MinEssBin[2] == 0)) &
-                          ((rocasDF["Biotita"] == 1) | (MinEssBin[3] == 0)) &
-                          ((rocasDF["Anfibol"] == 1) | (MinEssBin[4] == 0)) &
-                          ((rocasDF["Piroxeno"] == 1) | (MinEssBin[5] == 0)) &
-                          ((rocasDF["Olivino"] == 1) | (MinEssBin[6] == 0)) &
-                          ((rocasDF["Plg Na"] == 1) | (MinEssBin[7] == 0)) &
-                          ((rocasDF["Plg Int"] == 1) | (MinEssBin[8] == 0)) &
-                          ((rocasDF["Plg Ca"] == 1) | (MinEssBin[9] == 0))]
+    fault = (MinEssBin[6] == 1 & MinEssBin.count(1) == 1) #Ecevpcion cuando olivino sea la unica etiqueta seleccionada
+    selectionDF = rocasDF[(((rocasDF["Cuarzo"] == 1) | (MinEssBin[0] == 0)) & ((MinEssBin[0] == 1) | (rocasDF["Cuarzo"] == 0) | (fault == False))) &
+                          (((rocasDF["Muscovita"] == 1) | (MinEssBin[1] == 0)) & ((MinEssBin[1] == 1) | (rocasDF["Muscovita"] == 0) | (fault == False))) &
+                          (((rocasDF["Feldespato"] == 1) | (MinEssBin[2] == 0)) & ((MinEssBin[2] == 1) | (rocasDF["Feldespato"] == 0) | (fault == False))) &
+                          (((rocasDF["Biotita"] == 1) | (MinEssBin[3] == 0)) & ((MinEssBin[3] == 1) | (rocasDF["Biotita"] == 0) | (fault == False))) &
+                          (((rocasDF["Anfibol"] == 1) | (MinEssBin[4] == 0)) & ((MinEssBin[4] == 1) | (rocasDF["Anfibol"] == 0) | (fault == False))) &
+                          (((rocasDF["Piroxeno"] == 1) | (MinEssBin[5] == 0)) & ((MinEssBin[5] == 1) | (rocasDF["Piroxeno"] == 0) | (fault == False))) &
+                          (((rocasDF["Olivino"] == 1) | (MinEssBin[6] == 0)) & ((MinEssBin[6] == 1) | (rocasDF["Olivino"] == 0) | (fault == False))) &
+                          (((rocasDF["Plg Na"] == 1) | (MinEssBin[7] == 0)) & ((MinEssBin[7] == 1) | (rocasDF["Plg Na"] == 0) | (fault == False))) &
+                          (((rocasDF["Plg Int"] == 1) | (MinEssBin[8] == 0)) & ((MinEssBin[8] == 1) | (rocasDF["Plg Int"] == 0) | (fault == False))) &
+                          (((rocasDF["Plg Ca"] == 1) | (MinEssBin[9] == 0)) & ((MinEssBin[9] == 1) | (rocasDF["Plg Ca"] == 0) | (fault == False)))
+                           ]
     
     st.dataframe(selectionDF, hide_index=True, column_order=("Nombre Roca", "Origen", "Color", "Tipo de magma"))
 
