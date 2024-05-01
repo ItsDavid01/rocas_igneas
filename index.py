@@ -4,15 +4,6 @@ import pandas as pd
 import numpy as np
 #import cv2
 
-def parseBool(num):
-    if num == 1:
-        return True
-    else:
-        return False
-
-def LogicCircuit(A, B, C, D): #A: value, B: real, C: Olivino, D: UniqueTag
-    return (((not A) and (not C)) or ((not A) and (not D)) or (A and B))
-
 def rmv(list, elem): #remove
     try:
         list.remove(elem)
@@ -55,13 +46,12 @@ def On_EssMinMultiList_Change():
     if "Plagioclasa sódica" in st.session_state.EssMinReturn:
         rmv(st.session_state.EssMinList, "Plagioclasa intermedia")
 
-st.title("Title des Websites")
+st.title("Clasificación de Rocas ígneas en Muestra de Mano")
 
 with st.sidebar:
     user = st.text_input("Usuario:", placeholder="Digite su usuario")
     password = st.text_input("Contraseña:", placeholder="Digite su contraseña", type="password")
     
-
 selectBox_1_p = st.selectbox("Roca compuesta por granos minerales o vidrio?",
                              ["Vidrio", "Minerales"],
                              index=None,
@@ -119,26 +109,20 @@ if selectBox_1_p == "Minerales":
                             placeholder="Seleccione una opción")
     
     if TamGrano == "Mixto":
-        preguntaMatriz = st.selectbox("Seleccione la composición de la matriz de la roca",
-                                      ["Vidrio", "Granos minerales"],
-                                      index=None,
-                                      placeholder="Seleccione una opción")
-        
         mixto_grano_selectBox = st.selectbox("Seleccione la textura de la roca",
                                                 ["Porfirítica (Fenocristales rodeados de matriz)",
                                                 "Pegmatítica (Xenocristales rodeados de una matriz)"],
                                                 index=None,
                                                 placeholder="Seleccione una opción")
+        
     if TamGrano == "Fanerítica (Cristales visibles a simple vista)":
         homogeneidad = st.selectbox("Seleccione la homogeneidad de los cristales",
                                     ["Equigranular", "Inequigranular"],
                                     index=None,
                                     placeholder="Seleccione una opción")
         
-    
-      
     rocasDF = pd.read_csv("Rocas_Igneas.csv")
-    fault = (MinEssBin[6] == 1 & MinEssBin.count(1) == 1) #Ecevpcion cuando olivino sea la unica etiqueta seleccionada
+    fault = ((MinEssBin[6] == 1) & (MinEssBin.count(1) == 1)) | ((MinEssBin[6] == 1) & (MinEssBin[5] == 1) & (MinEssBin.count(1) == 2))
     selectionDF = rocasDF[(((rocasDF["Cuarzo"] == 1) | (MinEssBin[0] == 0)) & ((MinEssBin[0] == 1) | (rocasDF["Cuarzo"] == 0) | (fault == False))) &
                           (((rocasDF["Muscovita"] == 1) | (MinEssBin[1] == 0)) & ((MinEssBin[1] == 1) | (rocasDF["Muscovita"] == 0) | (fault == False))) &
                           (((rocasDF["Feldespato"] == 1) | (MinEssBin[2] == 0)) & ((MinEssBin[2] == 1) | (rocasDF["Feldespato"] == 0) | (fault == False))) &
@@ -150,7 +134,8 @@ if selectBox_1_p == "Minerales":
                           (((rocasDF["Plg Int"] == 1) | (MinEssBin[8] == 0)) & ((MinEssBin[8] == 1) | (rocasDF["Plg Int"] == 0) | (fault == False))) &
                           (((rocasDF["Plg Ca"] == 1) | (MinEssBin[9] == 0)) & ((MinEssBin[9] == 1) | (rocasDF["Plg Ca"] == 0) | (fault == False)))
                            ]
-    
+
+    st.dataframe(rocasDF, column_order=("Nombre Roca", "Cuarzo", "Muscovita", "Feldespato", "Biotita", "Anfibol", "Piroxeno", "Olivino","Plg Na", "Plg Int", "Plg Ca"))
     st.dataframe(selectionDF, hide_index=True, column_order=("Nombre Roca", "Origen", "Color", "Tipo de magma"))
 
 #up_files = st.file_uploader("Sube una foto de tu muestra para la comunidad!", accept_multiple_files=True, type=["png", "jpg"])
