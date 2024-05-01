@@ -141,8 +141,7 @@ if selectBox_1_p == "Minerales":
     
     st.dataframe(selectionDF, hide_index=True, column_order=("Nombre Roca", "Origen", "Color", "Tipo de magma"))
 
-#up_files = st.file_uploader("Sube una foto de tu muestra para la comunidad!", accept_multiple_files=True,
-                            type=["png", "jpg"])
+#up_files = st.file_uploader("Sube una foto de tu muestra para la comunidad!", accept_multiple_files=True, type=["png", "jpg"])
 
 #for file in up_files:
 #    data = file.read()
