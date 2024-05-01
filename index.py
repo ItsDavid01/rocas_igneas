@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+#import cv2
 
 def rmv(list, elem): #remove
     try:
@@ -50,6 +51,7 @@ st.title("Title des Websites")
 with st.sidebar:
     user = st.text_input("Usuario:", placeholder="Digite su usuario")
     password = st.text_input("Contraseña:", placeholder="Digite su contraseña", type="password")
+    
 
 selectBox_1_p = st.selectbox("Roca compuesta por granos minerales o vidrio?",
                              ["Vidrio", "Minerales"],
@@ -125,7 +127,7 @@ if selectBox_1_p == "Minerales":
                                     placeholder="Seleccione una opción")
         
     rocasDF = pd.read_csv("Rocas_Igneas.csv")
-    
+    st.write("La roca con las caracteristicas antes mencionadas puede ser: ")
     selectionDF = rocasDF[((rocasDF["Cuarzo"] == 1) | (MinEssBin[0] == 0)) &
                           ((rocasDF["Muscovita"] == 1) | (MinEssBin[1] == 0)) &
                           ((rocasDF["Feldespato"] == 1) | (MinEssBin[2] == 0)) &
@@ -139,6 +141,9 @@ if selectBox_1_p == "Minerales":
     
     st.dataframe(selectionDF, hide_index=True, column_order=("Nombre Roca", "Origen", "Color", "Tipo de magma"))
 
-    
-            
-    
+#up_files = st.file_uploader("Sube una foto de tu muestra para la comunidad!", accept_multiple_files=True,
+                            type=["png", "jpg"])
+
+#for file in up_files:
+#    data = file.read()
+#    st.write(file)
