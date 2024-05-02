@@ -64,8 +64,9 @@ minerales_esenciales = ["Cuarzo", "Muscovita", "Feldespato", "Biotita", "Anfibol
                         "Plagioclasa sódica", "Plagioclasa intermedia", "Plagioclasa cálcica"]
 MinEss = ["Cuarzo", "Muscovita", "Feldespato", "Biotita", "Anfibol", "Piroxeno", "Olivino", "Plg Na", "Plg Int", "Plg Ca"]
 MinEssBin = [0,0,0,0,0,0,0,0,0,0] #Minerales_esenciales_lista_binaria
-tamGranoRes = None
+TamGrano = None
 txMixta = None
+hasSulfurosOxidos = None
 
 if composicion == "Mineral":
     if "EssMinReturn" not in st.session_state:
@@ -97,23 +98,18 @@ if composicion == "Mineral":
 
 
     TamGrano = st.selectbox("Tamaño de grano",
-                            ["Fanerítica (Cristales visibles a simple vista)",
+                            ["Fanerítica",
                                 "Mixto",
-                                "Afanítica (Cristales no visibles a simple vista)"],
+                                "Afanítica"],
                             index=None,
+                            help="Fanerítica (Cristales visibles a simple vista) o Afanítica (Cristales no visibles a simple vista)",
                             placeholder="Seleccione una opción")
-    
-    if TamGrano == "Fanerítica (Cristales visibles a simple vista)":
-        tamGranoRes = "Fanerítica"
-    elif TamGrano == "Afanítica (Cristales no visibles a simple vista)":
-        tamGranoRes = "Afanítica"
-    else:
-        tamGranoRes == "Mixto" 
 
     if TamGrano == "Mixto":
         txMixta = st.selectbox("Seleccione la textura de la roca",
-                                                ["Porfirítica (Fenocristales rodeados de matriz)",
-                                                "Pegmatítica (Xenocristales rodeados de una matriz)"],
+                                                ["Porfirítica",
+                                                "Pegmatítica"],
+                                                help="Porfirítica (Fenocristales rodeados de matriz) o Pegmatítica (Xenocristales rodeados de una matriz)",
                                                 index=None,
                                                 placeholder="Seleccione una opción")
         
@@ -138,7 +134,7 @@ selectionDF = rocasDF[((((rocasDF[MinEss[0]] == 1) | (MinEssBin[0] == 0)) & ((Mi
                         (((rocasDF[MinEss[9]] == 1) | (MinEssBin[9] == 0)) & ((MinEssBin[9] == 1) | (rocasDF[MinEss[9]] == 0) | (fault == False)))) &
                       ((rocasDF["Composición"] == composicion) | (composicion == None)) &
                       ((rocasDF["Textura"] == textura) | (textura == None)) &
-                      ((rocasDF["TG"] == tamGranoRes) | (tamGranoRes == None)) &
+                      ((rocasDF["TG"] == TamGrano) | (TamGrano == None)) &
                       ((rocasDF["Tx Mixta"] == txMixta) | (txMixta == None))
                         ]
 
