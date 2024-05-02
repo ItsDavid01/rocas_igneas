@@ -184,6 +184,7 @@ st.dataframe(selectionDF, hide_index=True, column_order=columnas)
 if selectionDF.shape[0] == 1:
     with st.expander("Ver imágenes de la roca"):
         nombreRoca = selectionDF.iloc[0,0]
+        st.write(nombreRoca)
         try:
             st.image(f"Images\{nombreRoca}.jpeg", caption=f"{nombreRoca}", use_column_width=True)
         except Exception as ex:
