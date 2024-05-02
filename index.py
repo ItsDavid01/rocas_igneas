@@ -165,11 +165,15 @@ elif composicion == "Mineral":
             "Minerales esenciales", "Minerales accesorios"]
     if TamGrano == "Mixto":
         columnas = ["Nombre Roca", "Composición", "Origen", "Color", "Etapa del magma", "Tipo de magma",
-            "Velocidad de enfriamiento", "Tamaño de grano", "Cristalinidad",
+            "Velocidad de enfriamiento", "Tamaño de grano", "Textura mixta de grano","Cristalinidad",
             "Minerales esenciales", "Minerales accesorios"]
     elif TamGrano == "Afanítica":
         columnas = ["Nombre Roca", "Composición", "Origen", "Color", "Etapa del magma", "Tipo de magma",
             "Velocidad de enfriamiento", "Tamaño de grano", "Cristalinidad",
+            "Minerales esenciales", "Minerales accesorios"]
+    elif TamGrano == "Fanerítica":
+        columnas = ["Nombre Roca", "Composición", "Origen", "Color", "Etapa del magma", "Tipo de magma",
+            "Velocidad de enfriamiento", "Tamaño de grano", "Cristalinidad", "Homogeneidad",
             "Minerales esenciales", "Minerales accesorios"]
         
     
