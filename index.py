@@ -67,6 +67,9 @@ MinEssBin = [0,0,0,0,0,0,0,0,0,0] #Minerales_esenciales_lista_binaria
 TamGrano = None
 txMixta = None
 hasSulfurosOxidos = None
+homogeneidad = ""
+minAccesorios = ""
+mineralEssenCheckList = []
 
 if composicion == "Mineral":
     if "EssMinReturn" not in st.session_state:
@@ -113,7 +116,7 @@ if composicion == "Mineral":
                                                 index=None,
                                                 placeholder="Seleccione una opción")
         
-    if TamGrano == "Fanerítica (Cristales visibles a simple vista)":
+    if TamGrano == "Fanerítica":
         homogeneidad = st.selectbox("Seleccione la homogeneidad de los cristales",
                                     ["Equigranular", "Inequigranular"],
                                     index=None,
@@ -134,12 +137,45 @@ selectionDF = rocasDF[((((rocasDF[MinEss[0]] == 1) | (MinEssBin[0] == 0)) & ((Mi
                         (((rocasDF[MinEss[9]] == 1) | (MinEssBin[9] == 0)) & ((MinEssBin[9] == 1) | (rocasDF[MinEss[9]] == 0) | (fault == False)))) &
                       ((rocasDF["Composición"] == composicion) | (composicion == None)) &
                       ((rocasDF["Textura"] == textura) | (textura == None)) &
-                      ((rocasDF["TG"] == TamGrano) | (TamGrano == None)) &
-                      ((rocasDF["Tx Mixta"] == txMixta) | (txMixta == None)) &
+                      ((rocasDF["Tamaño de grano"] == TamGrano) | (TamGrano == None)) &
+                      ((rocasDF["Textura mixta de grano"] == txMixta) | (txMixta == None)) &
                       ((rocasDF["Sulfuros u oxidos"] == hasSulfurosOxidos) | (hasSulfurosOxidos == None))
                         ]
+if homogeneidad == None:
+    selectionDF["Homogeneidad"] = ""
+else:
+    selectionDF["Homogeneidad"] = homogeneidad
+    
+selectionDF["Minerales accesorios"] = minAccesorios
+textMinEss = ""
+for mineral in mineralEssenCheckList:
+    textMinEss += (f"{mineral}, ")
 
-st.dataframe(selectionDF, hide_index=True)
+selectionDF["Minerales esenciales"] = textMinEss
+
+columnas = ["Nombre Roca", "Composición", "Origen", "Color", "Etapa del magma", "Tipo de magma",
+            "Velocidad de enfriamiento", "Tamaño de grano", "Textura mixta de grano", "Cristalinidad", "Homogeneidad",
+            "Minerales esenciales", "Minerales accesorios", "Textura"]
+
+if composicion == "Vidrio":
+    columnas = ["Nombre Roca", "Composición", "Textura", "Origen", "Color", "Velocidad de enfriamiento", "Cristalinidad"]
+elif composicion == "Mineral":
+    columnas = ["Nombre Roca", "Composición", "Origen", "Color", "Etapa del magma", "Tipo de magma",
+            "Velocidad de enfriamiento", "Tamaño de grano", "Textura mixta de grano", "Cristalinidad", "Homogeneidad",
+            "Minerales esenciales", "Minerales accesorios"]
+    if (TamGrano != "Mixto") & (TamGrano != None):
+        columnas = ["Nombre Roca", "Composición", "Origen", "Color", "Etapa del magma", "Tipo de magma",
+            "Velocidad de enfriamiento", "Tamaño de grano", "Cristalinidad", "Homogeneidad",
+            "Minerales esenciales", "Minerales accesorios"]
+    elif TamGrano == "Afanítica":
+        columnas = ["Nombre Roca", "Composición", "Origen", "Color", "Etapa del magma", "Tipo de magma",
+            "Velocidad de enfriamiento", "Tamaño de grano", "Cristalinidad",
+            "Minerales esenciales", "Minerales accesorios"]
+        
+    
+
+st.subheader("A continuación se muestra una lista con todas las posibles clasificaciones de roca la los criterios especificados:")
+st.dataframe(selectionDF, hide_index=True, column_order=columnas)
 
 #up_files = st.file_uploader("Sube una foto de tu muestra para la comunidad!", accept_multiple_files=True, type=["png", "jpg"])
 
