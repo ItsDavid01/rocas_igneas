@@ -135,7 +135,8 @@ selectionDF = rocasDF[((((rocasDF[MinEss[0]] == 1) | (MinEssBin[0] == 0)) & ((Mi
                       ((rocasDF["Composición"] == composicion) | (composicion == None)) &
                       ((rocasDF["Textura"] == textura) | (textura == None)) &
                       ((rocasDF["TG"] == TamGrano) | (TamGrano == None)) &
-                      ((rocasDF["Tx Mixta"] == txMixta) | (txMixta == None))
+                      ((rocasDF["Tx Mixta"] == txMixta) | (txMixta == None)) &
+                      ((rocasDF["Sulfuros u oxidos"] == hasSulfurosOxidos) | (hasSulfurosOxidos == None))
                         ]
 
 st.dataframe(selectionDF, hide_index=True)
