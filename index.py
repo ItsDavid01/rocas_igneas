@@ -186,8 +186,9 @@ if selectionDF.shape[0] == 1:
         nombreRoca = selectionDF.iloc[0,0]
         try:
             st.image(f"Images\{nombreRoca}.jpeg", caption=f"{nombreRoca}", use_column_width=True)
-        except:
+        except Exception as ex:
             st.write("No hay imágenes de la clasificación de roca seleccionada. Añade la tuya!")
+            #st.write(ex.args[0])
         
     
 
