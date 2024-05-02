@@ -163,9 +163,9 @@ elif composicion == "Mineral":
     columnas = ["Nombre Roca", "Composición", "Origen", "Color", "Etapa del magma", "Tipo de magma",
             "Velocidad de enfriamiento", "Tamaño de grano", "Textura mixta de grano", "Cristalinidad", "Homogeneidad",
             "Minerales esenciales", "Minerales accesorios"]
-    if (TamGrano != "Mixto") & (TamGrano != None):
+    if TamGrano == "Mixto":
         columnas = ["Nombre Roca", "Composición", "Origen", "Color", "Etapa del magma", "Tipo de magma",
-            "Velocidad de enfriamiento", "Tamaño de grano", "Cristalinidad", "Homogeneidad",
+            "Velocidad de enfriamiento", "Tamaño de grano", "Cristalinidad",
             "Minerales esenciales", "Minerales accesorios"]
     elif TamGrano == "Afanítica":
         columnas = ["Nombre Roca", "Composición", "Origen", "Color", "Etapa del magma", "Tipo de magma",
@@ -174,7 +174,7 @@ elif composicion == "Mineral":
         
     
 
-st.subheader("A continuación se muestra una lista con todas las posibles clasificaciones de roca la los criterios especificados:")
+st.subheader("A continuación se muestra una lista con todas las posibles clasificaciones de roca con base a los criterios especificados:")
 st.dataframe(selectionDF, hide_index=True, column_order=columnas)
 
 #up_files = st.file_uploader("Sube una foto de tu muestra para la comunidad!", accept_multiple_files=True, type=["png", "jpg"])
