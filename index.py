@@ -179,7 +179,17 @@ elif composicion == "Mineral":
     
 
 st.subheader("A continuación se muestra una lista con todas las posibles clasificaciones de roca con base a los criterios especificados:")
+st.write(f"Mostrando {selectionDF.shape[0]} tipos distintos de roca")
 st.dataframe(selectionDF, hide_index=True, column_order=columnas)
+if selectionDF.shape[0] == 1:
+    with st.expander("Ver imágenes de la roca"):
+        nombreRoca = selectionDF.iloc[0,0]
+        try:
+            st.image(f"Images\{nombreRoca}.jpeg", caption=f"{nombreRoca}", use_column_width=True)
+        except:
+            st.write("No hay imágenes de la clasificación de roca seleccionada. Añade la tuya!")
+        
+    
 
 #up_files = st.file_uploader("Sube una foto de tu muestra para la comunidad!", accept_multiple_files=True, type=["png", "jpg"])
 
