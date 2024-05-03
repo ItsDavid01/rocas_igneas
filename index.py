@@ -45,9 +45,6 @@ def On_EssMinMultiList_Change():
         rmv(st.session_state.EssMinList, "Plagioclasa intermedia")
 
 st.title("Clasificación de Rocas ígneas en Muestra de Mano")
-with st.sidebar:
-    user = st.text_input("Usuario:", placeholder="Digite su usuario")
-    password = st.text_input("Contraseña:", placeholder="Digite su contraseña", type="password")
     
 composicion = st.selectbox("Roca compuesta por granos minerales o vidrio?",
                              ["Vidrio", "Mineral"],
